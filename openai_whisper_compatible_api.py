@@ -41,8 +41,8 @@ async def health():
 
 # Initialize the model - 使用本地缓存路径避免联网下载
 # 本地模型路径
-local_model_path = "/Users/dulei/.cache/modelscope/hub/models/iic/SenseVoiceSmall"
-local_vad_model_path = "/Users/dulei/.cache/modelscope/hub/models/iic/speech_fsmn_vad_zh-cn-16k-common-pytorch"
+local_model_path = "/Users/roc/.cache/modelscope/hub/models/iic/SenseVoiceSmall"
+local_vad_model_path = "/Users/roc/.cache/modelscope/hub/models/iic/speech_fsmn_vad_zh-cn-16k-common-pytorch"
 
 # 检查本地模型是否存在，如果不存在则使用原来的方式
 if os.path.exists(local_model_path) and os.path.exists(local_vad_model_path):
@@ -52,6 +52,7 @@ if os.path.exists(local_model_path) and os.path.exists(local_vad_model_path):
         vad_kwargs={"max_single_segment_time": 30000},
         trust_remote_code=True,
         disable_update=True,  # 禁用自动更新检查
+        device="mps",  # 使用Mac的MPS设备
     )
     print(f"使用本地模型: {local_model_path}")
 else:
@@ -62,6 +63,7 @@ else:
         vad_kwargs={"max_single_segment_time": 30000},
         trust_remote_code=True,
         disable_update=True,  # 禁用自动更新检查
+        device="mps",  # 使用Mac的MPS设备
     )
     print("本地模型不存在，使用在线下载")
 
